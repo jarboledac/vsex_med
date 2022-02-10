@@ -3,6 +3,7 @@ import numpy as np
 import datetime
 import os
 from funciones import *
+from zipfile import ZipFile
 
 
 PATH_FOLDER = "datos/"
@@ -121,6 +122,18 @@ for num in meses:
 writer.save()
 
 
+
+directory = './salida'
+file_paths = get_all_file_paths(directory)
+print('Following files will be zipped:')
+for file_name in file_paths:
+    print(file_name)
+
+with ZipFile('data_files.zip','w') as zip:
+    for file in file_paths:
+        zip.write(file)
+
+print('All files zipped successfully!')
 
 
 

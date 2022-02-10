@@ -1,6 +1,8 @@
 from tkinter import font
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
 
 def edad_ran(x):
     if 0 <= x < 99:
@@ -80,6 +82,16 @@ def ord_sema(data):
     data = data.sort_index(ascending = True) 
     data.index = ['Lun','Mar','Mier','Juev','Vier','Sab','Dom']
     return data
+
+
+def get_all_file_paths(directory):
+    file_paths = []
+    for root, directories, files in os.walk(directory):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            file_paths.append(filepath)
+  
+    return file_paths 
 
 
 
