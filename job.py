@@ -135,7 +135,9 @@ with ZipFile('data_files.zip','w') as zip:
 
 print('All files zipped successfully!')
 
-
+for files in file_paths:
+    os.remove(files)
+    print("removed{}".format(files))
 
 #df1.to_excel(writer, sheet_name='Sheet1')
 
