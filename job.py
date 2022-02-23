@@ -60,15 +60,17 @@ data['mes'] = data.fecha_uh.dt.month
 data['dia'] = data.fecha_uh.dt.day
 data['day_name'] = [x.day_name() for x in data['fecha_uh']]
 
+data2 = data.drop_duplicates(subset=['spoa']).copy()
+
 #CONTEO POR AÑO
-count_year = table_pv(data, 'mes','year')
+count_year = table_pv(data2, 'mes','year')
 count_year.index =['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'] #tabla
 graph_sisc(count_year, "acumulado_anio","Casos mes a mes - 2018-2021")
 
 #APARICION DELITOS GENERAL
 del_gen = apar_del(data)
 
-count_day_gn = table_pv(data,"day_name","year").fillna(0).astype('int64') #tabla
+count_day_gn = table_pv(data2,"day_name","year").fillna(0).astype('int64') #tabla
 count_day_gn.index = [5,1,6,7,4,2,3]
 count_day_gn = count_day_gn.sort_index(ascending = True) 
 count_day_gn.index = ['Lun','Mar','Mier','Juev','Vier','Sab','Dom']
@@ -87,12 +89,13 @@ casos_sex = {}
 casos_edad = {}
 for mes in meses:
     data_m = data[data.mes == mes]
-    count_day_m =table_pv(data_m, 'dia', "year").fillna(0).astype('int64')
+    data_m2 = data2[data2.mes == mes]
+    count_day_m =table_pv(data_m2, 'dia', "year").fillna(0).astype('int64')
     casos_mes[mes] = count_day_m
     graph_sisc(count_day_m, "acumulado_dia_"+name_mes[mes].lower(),"Casos dia a dia mes de "+name_mes[mes].lower())
     del_mes = apar_del(data_m)
     delitos_mes[mes] = del_mes
-    count_day_m = table_pv(data_m, 'day_name', "year").fillna(0).astype('int64')
+    count_day_m = table_pv(data_m2, 'day_name', "year").fillna(0).astype('int64')
     count_day_m = ord_sema(count_day_m)
     casos_dia[mes] = count_day_m
     bar_sisc(count_day_m,"distri_dias_" + name_mes[mes].lower(),"Distribución por dias mes de "+name_mes[mes].lower())
