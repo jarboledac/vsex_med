@@ -6,8 +6,19 @@ from funciones import *
 from zipfile import ZipFile
 
 
-PATH_FOLDER = "datos/"
-PATH_FILE = os.listdir(PATH_FOLDER)[0]
+PATH_FOLDER = "raw/"
+PATH_FILE = os.listdir(PATH_FOLDER)
+
+for path in PATH_FILE:
+    if "victima" in path:
+        PATH_VIC = path
+    elif "indiciado" in path:
+        PATH_IND = path
+    elif "relacion" in path:
+        PATH_REL = path
+    else:
+        pass
+
 fecha_inicial = '31-12-2017'
 fecha_final = '01-01-2022'
 meses = [3, 9, 12]
@@ -25,7 +36,10 @@ name_mes = {1 :"Ene",
             12: "Dic"
 }
 
-assert PATH_FILE.split('.')[-1] == "xlsx"
+assert PATH_VIC.split('.')[-1] == "xlsx"
+assert PATH_IND.split('.')[-1] == "xlsx"
+assert PATH_REL.split('.')[-1] == "xlsx"
+
 
 ARTICULOS_DELITO_SEXUAL = ['188a. Trata de personas', '205. Acceso carnal violento',
                            '206. Acto sexual violento',
